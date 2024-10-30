@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+        .weather-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .preferences {
+            margin-bottom: 20px;
+        }
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather in {{ location.city }}</h1>
+    
+    <div class="preferences">
+        <form method="post">
+            {% csrf_token %}
+            <div class="checkbox-group">
+                {{ form.as_p }}
+            </div>
+            <button type="submit">Update Preferences</button>
+        </form>
+    </div>
+
+    <div class="weather-card">
+        {% if form.show_temperature.value %}
+            <p>Temperature: {{ weather.main.temp }}°C</p>
+        {% endif %}
+        
+        {% if form.show_humidity.value %}
+            <p>Humidity: {{ weather.main.humidity }}%</p>
+        {% endif %}
+        
+        {% if form.show_wind.value %}
+            <p>Wind Speed: {{ weather.wind.speed }} m/s</p>
+        {% endif %}
+        
+        {% if form.show_description.value %}
+            <p>Description: {{ weather.weather.0.description|title }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
